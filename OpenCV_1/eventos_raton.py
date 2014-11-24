@@ -1,14 +1,14 @@
 import cv2
 import numpy as np
-from cv2 import destroyAllWindows
 color = 0
 mode = False
+#Varialbes globales para pintar la linea
 ix,iy = 0,0
 
-def draw_circle(event,x,y,flags,param):
+def draw_figur(event,x,y,flags,param):
     global color,ix,iy
     if event == cv2.EVENT_FLAG_LBUTTON:
-        '''if color == 0 or color == 1:
+        if color == 0 or color == 1:
             if mode:
                 cv2.circle(img,(x,y),20,(255,0,0),-1)
             else:
@@ -23,18 +23,18 @@ def draw_circle(event,x,y,flags,param):
                 cv2.rectangle(img,(x,y),(x+29,y+29),(0,0,255),10)
             color += 1
             if color == 4:
-                color = 0'''
+                color = 0
     elif event == cv2.EVENT_FLAG_RBUTTON:
         cv2.circle(img,(250,250),1000,(0,0,0),-1)
-    elif event == cv2.EVENT_FLAG_ALTKEY:
+    '''elif event == cv2.EVENT_FLAG_ALTKEY:
         ix,iy = x,y
     elif event == cv2.EVENT_LBUTTONUP:
-        cv2.line(img, (ix,iy), (x,y), (0,255,0),15)
+        cv2.line(img, (ix,iy), (x,y), (0,255,0),15)'''
 
 # Create a black image, a window and bind the function to window
 img = np.zeros((512,512,3),np.uint8)
 cv2.namedWindow('ventana')
-cv2.setMouseCallback('ventana', draw_circle)
+cv2.setMouseCallback('ventana', draw_figur)
 
 while(1):
     cv2.imshow('ventana', img)
@@ -44,4 +44,4 @@ while(1):
     elif cv2.waitKey(20) & 0xFF == 27:
         break
     
-destroyAllWindows()
+cv2.destroyAllWindows()
