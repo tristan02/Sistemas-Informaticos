@@ -39,7 +39,7 @@ cv2.createTrackbar('salir?', 'valores', 0, 1, exit)
 
 while (salir == False):
     cv2.imshow('Trans_morfo', img)
-    img = cv2.morphologyEx(img, cv2.MORPH_OPEN, kernel)
+    #img = cv2.morphologyEx(img, cv2.MORPH_OPEN, kernel)
     cv2.waitKey(0)
     
 cv2.destroyAllWindows()
