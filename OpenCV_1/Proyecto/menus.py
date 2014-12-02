@@ -9,6 +9,7 @@ from Tkinter import *
 from Proyecto.butterfly import butterfly
 import ImageTk, Image
 from tkFileDialog import *
+import tkMessageBox
 
 def donothing():
     pass
@@ -29,25 +30,31 @@ def get_path(s):
         aux += 1
     return p
 
-def menu(w):
+def menu(w,db):
 
-    def load_butterfly():
+    def load_but():
         b = str(askopenfile())
         path = get_path(b)
         #path = 'C:/Users/Psilocibino/Documents/GitHub/Sistemas-Informaticos/OpenCV_1/Proyecto/images/BMC-294_D.jpg'
         img = ImageTk.PhotoImage(Image.open(path))
+        but = butterfly(img)       
         panel = Label(w, image = img)
         panel.pack(side = "top", fill = "none", expand = "no")
+        s = tkMessageBox.askquestion("Integridad", "Le falta algun trozo al ejemplar?")        
+        but.set_broken(s)
+        db.new_but(but)
+        
         w.config(Label=panel)
+    
+    def close_but():
+        w.config(Label=0)
     
     #Creamos la barra de menus
     menubar = Menu(w)
     filemenu = Menu(menubar, tearoff=0)
-    filemenu.add_command(label="Load new item...", command=load_butterfly)
-    filemenu.add_command(label="Open Database", command=donothing)
-    filemenu.add_command(label="Save Database", command=donothing)
+    filemenu.add_command(label="Load new item...", command=load_but)
     filemenu.add_command(label="Save Database as...", command=donothing)
-    filemenu.add_command(label="Close", command=donothing)
+    filemenu.add_command(label="Close", command=close_but)
     
     filemenu.add_separator()
     
