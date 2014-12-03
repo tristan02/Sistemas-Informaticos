@@ -10,10 +10,12 @@ from Proyecto.butterfly import butterfly
 import ImageTk, Image
 from tkFileDialog import *
 import tkMessageBox
+from Proyecto.resize import findscale
 
 def donothing():
     pass
 
+#Par de bucles para extraer la ruta de la imagen que hemos seleccionado en el explorador
 def get_path(s):
     aux = 0
     p = ""
@@ -30,26 +32,37 @@ def get_path(s):
         aux += 1
     return p
 
+#Construccion del menus y submenus
 def menu(w,db):
 
+    #Carga una imagen deseada, crea una mariposa, la muestra, pregunta si esta rota y la guarda en la bd
     def load_but():
         b = str(askopenfile())
         path = get_path(b)
-        #path = 'C:/Users/Psilocibino/Documents/GitHub/Sistemas-Informaticos/OpenCV_1/Proyecto/images/BMC-294_D.jpg'
         img = ImageTk.PhotoImage(Image.open(path))
-        but = butterfly(img)       
+        but = butterfly(img)
+               
         panel = Label(w, image = img)
         panel.pack(side = "top", fill = "none", expand = "no")
+        
         s = tkMessageBox.askquestion("Integridad", "Le falta algun trozo al ejemplar?")        
         but.set_broken(s)
         db.new_but(but)
         
-        w.config(Label=panel)
+        #w.mainloop()
+        #w.config(Label=panel)
     
     def close_but():
         w.config(Label=0)
     
-    #Creamos la barra de menus
+    def resize():
+        but_l = db.get_last_but_unch()
+        img_l = but_l.get_img()
+        img_r = findscale(img_l)
+        panel = Label(w, image = img_r)
+        panel.pack(side = "top", fill = "none", expand = "no")       
+        #w.config(Label=panel)
+    
     menubar = Menu(w)
     filemenu = Menu(menubar, tearoff=0)
     filemenu.add_command(label="Load new item...", command=load_but)
@@ -61,7 +74,7 @@ def menu(w,db):
     filemenu.add_command(label="Exit", command=w.quit)
     menubar.add_cascade(label="File", menu=filemenu)
     editmenu = Menu(menubar, tearoff=0)
-    editmenu.add_command(label="Rescale", command=donothing)
+    editmenu.add_command(label="Rescale", command=resize)
     editmenu.add_command(label="Isolate item", command=donothing)
     editmenu.add_command(label="Compare by Color", command=donothing)
     

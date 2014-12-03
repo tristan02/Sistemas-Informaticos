@@ -6,7 +6,7 @@ u1,u2=100,200
 def nothing():
     cv2.imshow("Canny",edges)
 
-img = cv2.imread('zeb.jpg',0)
+img = cv2.imread('img.jpg',0)
 cv2.namedWindow("umbrales",cv2.WINDOW_AUTOSIZE)
 cv2.createTrackbar("Umbral1", "umbrales", 0, 500, nothing)
 cv2.createTrackbar("Umbral2", "umbrales", 0, 500, nothing)

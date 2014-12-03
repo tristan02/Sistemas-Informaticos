@@ -13,7 +13,6 @@ import menus
 db = database()
 
 w = Tk()
-w.winfo_name()
 w.geometry("1500x1500") 
 menus.menu(w,db)
 

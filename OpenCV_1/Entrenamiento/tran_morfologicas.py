@@ -4,8 +4,8 @@ import numpy as np
 kernel = np.ones((0,0),np.uint8)
 salir = False
 
-img = cv2.imread('canny.jpg')
-img = cv2.bitwise_not(img)
+img = cv2.imread('img.jpg',0)
+#img = cv2.bitwise_not(img)
 cv2.namedWindow('Trans_morfo')
 cv2.namedWindow('valores')
 
