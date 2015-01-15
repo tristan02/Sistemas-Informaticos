@@ -8,13 +8,14 @@ import numpy as np
 from Tkinter import *
 from Proyecto.butterfly import butterfly
 from Proyecto.database import database
-import menus
+from Proyecto.menus import menus
+from matplotlib.cbook import Null
 
 db = database()
 
 w = Tk()
 w.geometry("1500x1500") 
-menus.menu(w,db)
+menu = menus(w,db)
 
 
 w.mainloop()

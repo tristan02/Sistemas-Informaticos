@@ -5,11 +5,13 @@ Created on 2/12/2014
 '''
 import cv2
 import numpy as np
+from matplotlib.cbook import Null
 
 
 class butterfly:
     broken = False
     checked = False
+    img = Null
     
     def __init__(self,img):
         self.img = img

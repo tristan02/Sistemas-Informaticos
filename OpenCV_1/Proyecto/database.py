@@ -22,5 +22,6 @@ class database:
         self.data_unchecked.append(but)
         tkMessageBox.showinfo(None, "La mariposa ha sido aniadida a la base de datos, aunque todavia no ha sido procesada.")
         
+    #Sacamos
     def get_last_but_unch(self):
         return self.data_unchecked.pop()
