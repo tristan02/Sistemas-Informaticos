@@ -15,9 +15,6 @@ haystack_g = cv2.cvtColor(haystack, cv2.CV_32FC1)
  
 # Attempt match
 d = cv2.matchTemplate(needle_g, haystack_g, cv2.cv.CV_TM_SQDIFF_NORMED)
-cv2.imshow('matchTemplate',d)
-cv2.imshow('matchTemplate_n',needle_g)
-cv2.imshow('matchTemplate_h',haystack_g)
 # we want the minimum squared difference
 mn,_,mnLoc,_ = cv2.minMaxLoc(d)
  

@@ -14,8 +14,8 @@ from matplotlib.cbook import Null
 db = database()
 
 w = Tk()
-w.geometry("1500x1500") 
+w.geometry("750x500") 
 menu = menus(w,db)
-
+ 
 
 w.mainloop()
