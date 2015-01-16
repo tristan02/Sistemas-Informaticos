@@ -28,28 +28,29 @@ class menus:
         self.w = w
         menubar = Menu(w)
         self.db = db
-        frame = Frame(self.w)
-        frame.pack()
+        self.frame = Frame(self.w)
+        self.frame.bind("<Button-1>", self.callback)
+        self.frame.pack()
+        
         filemenu = Menu(menubar, tearoff=0)
         filemenu.add_command(label="Load new item...", command=self.load_but)
-        filemenu.add_command(label="Save Database as...", command=self.donothing)
-        filemenu.add_command(label="Close", command=self.close_but)
-        
-        filemenu.add_separator()
-        
+        filemenu.add_command(label="Load Database", command=self.load_db)
+        filemenu.add_command(label="Save Database", command=self.db.save_db)
+        filemenu.add_command(label="Close", command=self.close_but)        
+        filemenu.add_separator()        
         filemenu.add_command(label="Exit", command=w.quit)
         menubar.add_cascade(label="File", menu=filemenu)
+        
         editmenu = Menu(menubar, tearoff=0)
         editmenu.add_command(label="Rescale", command=self.resize)
         editmenu.add_command(label="Isolate item", command=self.donothing)
-        editmenu.add_command(label="Compare by Color", command=self.donothing)
-        
-        editmenu.add_separator()
-        
+        editmenu.add_command(label="Compare by Color", command=self.donothing)  
+        editmenu.add_command(label="Show butterflies", command=self.donothing)       
+        editmenu.add_separator()        
         editmenu.add_command(label="Delete", command=self.donothing)
-        editmenu.add_command(label="Select All", command=self.donothing)
-        
+        editmenu.add_command(label="Select All", command=self.donothing)        
         menubar.add_cascade(label="Edit", menu=editmenu)
+        
         helpmenu = Menu(menubar, tearoff=0)
         helpmenu.add_command(label="Help Index", command=self.donothing)
         helpmenu.add_command(label="About...", command=self.donothing)
@@ -85,23 +86,24 @@ class menus:
         path = self.get_path(b)
         i = np.array(Image.open(path))
         #Creamos la mariposa
-        self.but_act = butterfly(i)
+        self.but_act = butterfly(i,path)
         self.refresh_panel(self.but_act.get_pil_img())
         
         s = tkMessageBox.askquestion("Integridad", "Le falta algun trozo al ejemplar?")        
         self.but_act.set_broken(s)
-        self.miniatura(self.but_act)
-        self.db.new_but(self.but_act)
-        self.w.mainloop()
+        if self.db.new_but(self.but_act) == -1:
+            self.refresh_grid()
+            tkMessageBox.showinfo(None, "La mariposa ya esta en la base de datos o se ha producido un error")
+        else:
+            tkMessageBox.showinfo(None, "La mariposa ha sido aniadida a la base de datos, aunque todavia no pa sido procesada.")
+        #self.w.mainloop()
     
     def close_but(self):
         self.w.config(Label=0)
     
     def resize(self):
-        img_r = findscale(self.but_act.get_img())
-        #Pasamos el numpy array a una PIL para poder mostrarlo con tkinter
-        i = ImageTk.PhotoImage(Image.fromarray(img_r))
-        
+        img_r = findscale(self.but_act.get_np_img())   
+        i = ImageTk.PhotoImage(Image.fromarray(img_r))   
         self.refresh_panel(i)
         self.w.mainloop()
         
@@ -110,16 +112,39 @@ class menus:
             self.panel.destroy()
         try:
             self.panel = Label(self.frame, image = img)
-            self.panel.pack(side = "Top", fill = "none", expand = "no")
+            #self.frame.pack()
+            self.panel.pack(side = "top", fill = "none", expand = "no")
+            
         except IOError:
             self.panel.destroy()
             
     def refresh_grid(self):
-        pass
-            
-    def miniatura(self,but):        
-        i = self.but_act.get_img()        
-        i = cv2.resize(i,(100, 80), interpolation = cv2.INTER_CUBIC)
-        self.but_act.set_img_min(i)       
-        return i
+        r = 0
+        for i in range(self.db.get_count_but()):
+            b = self.db.get_but(i)
+            if self.panel != Null:
+                self.panel.destroy()
+            panel = Label(self.frame, image=b.get_min_img() ,borderwidth=1 ).grid(row=r,column=0)
+            r = r + 1
+        self.w.mainloop()
         
+    def callback(self,event):
+        print "clicked at", event.x, event.y
+    
+    def load_db(self):
+        b = str(askopenfile())
+        path = self.get_path(b)
+        self.db.load_db(path)
+        self.refresh_grid()    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    

@@ -7,6 +7,7 @@ import cv2
 import numpy as np
 from Proyecto.butterfly import butterfly
 import tkMessageBox
+import ImageTk, Image
 
 
 class database:
@@ -19,9 +20,68 @@ class database:
     
     #Agregamos una nueva mariposa sin procesar a la base de datos
     def new_but(self,but):
-        self.data_unchecked.append(but)
-        tkMessageBox.showinfo(None, "La mariposa ha sido aniadida a la base de datos, aunque todavia no ha sido procesada.")
-        
+        new = True
+        for elem in self.data_unchecked:
+            n1 = but.get_name()
+            n2 = elem.get_name()
+            if n1 == n2:
+                new = False
+        if new:        
+            self.data_unchecked.append(but)
+            return 0
+        else:
+            return -1
+            
     #Sacamos
-    def get_last_but_unch(self):
+    def get_last_but_uncp(self):
         return self.data_unchecked.pop()
+    
+    def get_count_but(self):
+        return len(self.data_unchecked)
+    
+    def get_but(self,i):
+        if i < self.get_count_but():
+            return self.data_unchecked[i]
+    
+    def save_db(self):
+        file = open('db.txt','w')
+        file.write(str(self.get_count_but()) + '\n')
+        
+        for elem in self.data_unchecked:
+            file.write(elem.get_name() + '\n')
+            file.write(str(elem.get_broken()) + '\n')
+            file.write(str(elem.get_checked()) + '\n')
+            
+        file.close()
+        
+    def load_db(self,path):
+        file = open(path, 'r')
+        n = int(file.readline())
+        
+        for i in range(n):
+            h = file.readline()
+            h = h[:len(h)-1]            
+            img = np.array(Image.open(h))
+            b = butterfly(img,h)
+            
+            br = file.readline()
+            br = br[:len(br)-1]
+            b.set_broken(br)
+            
+            ch = file.readline()
+            ch = ch[:len(ch)-1]
+            b.set_checked(ch)
+            
+            self.new_but(b)
+            
+            
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
