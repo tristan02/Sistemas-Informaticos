@@ -74,7 +74,9 @@ class database:
             
             self.new_but(b)
             
-            
+    def delete_db(self):
+        #Hay que destruir todas las mariposas????
+        self.data_unchecked = []
         
         
         

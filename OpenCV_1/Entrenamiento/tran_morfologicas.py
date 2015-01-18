@@ -4,8 +4,9 @@ import numpy as np
 kernel = np.ones((0,0),np.uint8)
 salir = False
 
-img = cv2.imread('img.jpg',0)
+img = cv2.imread('img (96).jpg',0)
 #img = cv2.bitwise_not(img)
+
 cv2.namedWindow('Trans_morfo')
 cv2.namedWindow('valores')
 
@@ -42,6 +43,6 @@ while (salir == False):
     #img = cv2.morphologyEx(img, cv2.MORPH_OPEN, kernel)
     cv2.waitKey(0)
 
-cv2.imwrite("erode.jpg", img)   
+cv2.imwrite("tmpp.jpg", img)   
 cv2.destroyAllWindows()
     

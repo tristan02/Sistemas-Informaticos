@@ -16,6 +16,4 @@ db = database()
 w = Tk()
 w.geometry("750x500") 
 menu = menus(w,db)
- 
-
 w.mainloop()

@@ -45,7 +45,7 @@ class menus:
         editmenu.add_command(label="Rescale", command=self.resize)
         editmenu.add_command(label="Isolate item", command=self.donothing)
         editmenu.add_command(label="Compare by Color", command=self.donothing)  
-        editmenu.add_command(label="Show butterflies", command=self.donothing)       
+        editmenu.add_command(label="Show butterflies", command=self.refresh_grid)       
         editmenu.add_separator()        
         editmenu.add_command(label="Delete", command=self.donothing)
         editmenu.add_command(label="Select All", command=self.donothing)        
@@ -58,6 +58,9 @@ class menus:
         
         w.config(menu=menubar)
         self.refresh_grid()
+        
+    def callback(self,event):
+        print "clicked at", event.x, event.y
         
         
     def donothing(self):
@@ -99,10 +102,18 @@ class menus:
         #self.w.mainloop()
     
     def close_but(self):
-        self.w.config(Label=0)
+        if self.panel != Null:
+            self.panel.destroy()
+        self.frame.destroy()
+        self.db.delete_db()
     
     def resize(self):
-        img_r = findscale(self.but_act.get_np_img())   
+        c = self.db.get_count_but()
+        for i in range(c):
+            but = self.db.get_but(i)
+            
+        
+        img_r = findscale(self.but_act.get_np_img())         
         i = ImageTk.PhotoImage(Image.fromarray(img_r))   
         self.refresh_panel(i)
         self.w.mainloop()
@@ -111,9 +122,11 @@ class menus:
         if self.panel != Null:
             self.panel.destroy()
         try:
+            self.frame.destroy()
+            self.frame = Frame(self.w)
             self.panel = Label(self.frame, image = img)
-            #self.frame.pack()
-            self.panel.pack(side = "top", fill = "none", expand = "no")
+            self.frame.pack()
+            self.panel.pack(side = "top", fill = "none", expand = "yes")
             
         except IOError:
             self.panel.destroy()
@@ -126,24 +139,14 @@ class menus:
                 self.panel.destroy()
             panel = Label(self.frame, image=b.get_min_img() ,borderwidth=1 ).grid(row=r,column=0)
             r = r + 1
-        self.w.mainloop()
+        #self.w.mainloop()
         
-    def callback(self,event):
-        print "clicked at", event.x, event.y
     
     def load_db(self):
         b = str(askopenfile())
         path = self.get_path(b)
         self.db.load_db(path)
-        self.refresh_grid()    
-    
-    
-    
-    
-    
-    
-    
-    
+        self.refresh_grid()     
     
     
     
