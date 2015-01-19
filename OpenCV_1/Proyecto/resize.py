@@ -44,7 +44,6 @@ def findscale(img):
     
     return img_v
 
-    def get
 
 '''image_name = "img_v.jpg"
 haystack = cv2.imread(image_name)

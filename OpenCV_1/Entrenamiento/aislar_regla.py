@@ -1,25 +1,31 @@
 import cv2
 import numpy as np
+import math
+#Carga de imagenes
+img = cv2.imread('img.jpg')
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+edges = cv2.Canny(gray,500,250)
+cv2.imshow("Canny",edges)
+cv2.waitKey()
 
+sobely = cv2.Sobel(edges,cv2.CV_64F,0,1,ksize=9)
+cv2.imshow("Canny",sobely)
+cv2.waitKey()
 
-def nothing():
-    cv2.imshow("Canny",edges)
+lines = cv2.HoughLines(edges,1,np.pi/180,200)
+for rho,theta in lines[0]:
+    a = np.cos(theta)
+    b = np.sin(theta)
+    x0 = a*rho
+    y0 = b*rho
+    x1 = int(x0 + 1000*(-b))
+    y1 = int(y0 + 1000*(a))
+    x2 = int(x0 - 1000*(-b))
+    y2 = int(y0 - 1000*(a))
 
+    cv2.line(edges,(x1,y1),(x2,y2),(0,0,255),2)
 
-
-
-for i in range(100):
-    path = 'ima/img (' + str(i+1) + ').jpg'
-    img = cv2.imread(path,0)
-    edges = cv2.Canny(img,250,500)
-    cv2.imshow("Original",img)
-    cv2.imshow("Canny",edges)
-    
-    u1 = cv2.getTrackbarPos("Umbral1", "umbrales")
-    u2 = cv2.getTrackbarPos("Umbral2", "umbrales")
-    
-    if cv2.waitKey(1) == 27:
-        cv2.imwrite("canny.jpg", edges)
-        break
+cv2.imshow("Canny",edges)
+cv2.waitKey()
 
 cv2.destroyAllWindows()
