@@ -56,21 +56,25 @@ def match(img):
 
 def cero_tres(img):
     
+    
     h,w = img.shape[:2]
+    bimg = np.zeros((h,w,3), np.uint8)
     v0 = (w,0)
     v3 = (0,0)
     
     gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     gray = np.float32(gray)
     #Detecta perfectamente el zero y el tres
-    dst = cv2.cornerHarris(gray,15,21,0.22)
+    dst = cv2.cornerHarris(gray,15,21,0.22)   
     
     #result is dilated for marking the corners, not important
     dst = cv2.dilate(dst,None)
     
-    # Threshold for an optimal value, it may vary depending on the image.
-    img[dst>0.005*dst.max()]=[0,0,255]
 
+    # Threshold for an optimal value, it may vary depending on the image.
+    bimg[dst>0.005*dst.max()]=[0,0,255]
+    cv2.imshow('pepe', bimg)
+    cv2.waitKey()
     return img
 
 
