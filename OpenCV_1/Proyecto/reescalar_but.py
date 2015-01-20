@@ -59,8 +59,8 @@ def cero_tres(img):
     
     h,w = img.shape[:2]
     bimg = np.zeros((h,w,3), np.uint8)
-    v0 = (w,0)
-    v3 = (0,0)
+    v0 = [h,w]
+    v3 = [0,0]
     
     gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     gray = np.float32(gray)
@@ -68,13 +68,26 @@ def cero_tres(img):
     dst = cv2.cornerHarris(gray,15,21,0.22)   
     
     #result is dilated for marking the corners, not important
-    dst = cv2.dilate(dst,None)
-    
+    dst = cv2.dilate(dst,None)   
 
     # Threshold for an optimal value, it may vary depending on the image.
-    bimg[dst>0.005*dst.max()]=[0,0,255]
-    cv2.imshow('pepe', bimg)
-    cv2.waitKey()
+    img[dst>0.005*dst.max()]=[0,0,255]        
+
+    for x in range(w):
+        for y in range(h):
+            px = img[y,x]
+            #Si el pixel es rojo mejoramos el valor para seguir bajando                       
+            if px[0] == 0 and px[1] == 0 and px[2] == 255:
+                if v3[0] < y or v3[1] < y:                    
+                    #print 'Valor mejorado. Antes:(' + str(v0[0]) +',' + str(v0[1]) + ') ahora:(' + str(x) +',' + str(y) + ')'
+                    v3 = [x,y]
+                if v0[0] > x or v0[1] < y:
+                    v0 = [x,y]
+    #print str(v0[0]) + '---->' + str(v0[1])
+    cv2.circle(img,(v3[0],v3[1]), 10, (0,255,0), -1)
+    cv2.circle(img,(v0[0],v0[1]), 10, (255,0,0), -1)
+    
+    
     return img
 
 
