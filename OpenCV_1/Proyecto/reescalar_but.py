@@ -4,6 +4,7 @@ import numpy as np
 
 #Funcion a le que le pasamos dos imagenes en escala de grises y intenta un matchtemplate del primer elemento en el segundo.
 #Devuelve la imagen con el rectangulo pintado, la mnLoc (x,y) y el valor de acierto (mn)
+#No es del todo eficiente =(
 def match(img):
     
     tmp_n = cv2.imread('tmp_n.jpg')
@@ -56,7 +57,6 @@ def match(img):
 
 def cero_tres(img):
     
-    
     h,w = img.shape[:2]
     bimg = np.zeros((h,w,3), np.uint8)
     v0 = [h,w]
@@ -84,11 +84,11 @@ def cero_tres(img):
                 if v0[0] > x or v0[1] < y:
                     v0 = [x,y]
     #print str(v0[0]) + '---->' + str(v0[1])
-    cv2.circle(img,(v3[0],v3[1]), 10, (0,255,0), -1)
-    cv2.circle(img,(v0[0],v0[1]), 10, (255,0,0), -1)
+    #cv2.circle(img,(v3[0],v3[1]), 10, (0,255,0), -1)
+    #cv2.circle(img,(v0[0],v0[1]), 10, (255,0,0), -1)
+    sol = v3[0]-v0[0]
     
-    
-    return img
+    return img,sol
 
 
 for i in range(100):
@@ -103,8 +103,10 @@ for i in range(100):
     
     #x,y,mn = match(img_g)
     
-    img_z = cero_tres(img)
-          
+    img_z,sol = cero_tres(img)
+    print sol
+    x = sol/113.3858267717 
+    print x
     cv2.imshow('output',img_z)
     cv2.waitKey()
     

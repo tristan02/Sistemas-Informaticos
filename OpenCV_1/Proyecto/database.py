@@ -51,6 +51,7 @@ class database:
             file.write(elem.get_name() + '\n')
             file.write(str(elem.get_broken()) + '\n')
             file.write(str(elem.get_checked()) + '\n')
+            file.write(str(elem.get_reescaled()) + '\n')
             
         file.close()
         
@@ -71,6 +72,10 @@ class database:
             ch = file.readline()
             ch = ch[:len(ch)-1]
             b.set_checked(ch)
+            
+            re = file.readline()
+            re = re[:len(re)-1]
+            b.set_reescaled(re)
             
             self.new_but(b)
             

@@ -10,7 +10,7 @@ from Proyecto.butterfly import butterfly
 import ImageTk, Image
 from tkFileDialog import *
 import tkMessageBox
-from Proyecto.resize import findscale
+from Proyecto.resize import find_0_3
 from matplotlib.cbook import Null
 from matplotlib.mlab import donothing_callback
 
@@ -111,11 +111,9 @@ class menus:
         c = self.db.get_count_but()
         for i in range(c):
             but = self.db.get_but(i)
-            
-        
-        img_r = findscale(self.but_act.get_np_img())         
-        i = ImageTk.PhotoImage(Image.fromarray(img_r))   
-        self.refresh_panel(i)
+            dist = find_0_3(but.get_np_img())
+            but.reescale(dist)         
+        self.refresh_grid()
         self.w.mainloop()
         
     def refresh_panel(self,img):        

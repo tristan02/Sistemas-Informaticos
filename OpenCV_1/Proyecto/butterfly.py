@@ -12,6 +12,7 @@ from matplotlib.cbook import Null
 class butterfly:
     broken = False
     checked = False
+    reescaled = False
     np_img = Null
     pil_img = Null
     min_img = Null
@@ -29,6 +30,17 @@ class butterfly:
         aux = cv2.resize(img,(self.w/4, self.h/4), interpolation = cv2.INTER_CUBIC)
         self.min_img = ImageTk.PhotoImage(Image.fromarray(aux))
     
+    #A partir de la medida entre el 0 y el 3 que son "3cmm" reescalamos a escala 2:1
+    def reescale(self,d):
+        if not(self.reescaled):
+            k = 2*113.3858267717/d
+            self.w = int(self.w*k)
+            self.h = int(self.h*k)
+            aux = cv2.resize(self.get_np_img(),(self.w, self.h), interpolation = cv2.INTER_CUBIC)
+            self.set_pil_img(aux)
+            
+            cv2.imshow('Erf', aux)
+            cv2.waitKey()
     #Getter de la imagen en np
     def get_np_img(self):
         return self.np_img
@@ -55,7 +67,14 @@ class butterfly:
     def get_checked(self):
         return self.checked
     
+    def get_reescaled(self):
+        return self.reescaled
+    
     def set_checked(self,c):
+        if c == 'True':
+            self.checked = True
+            
+    def set_reescaled(self,c):
         if c == 'True':
             self.checked = True
     
