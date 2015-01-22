@@ -36,11 +36,12 @@ class butterfly:
             k = 2*113.3858267717/d
             self.w = int(self.w*k)
             self.h = int(self.h*k)
-            aux = cv2.resize(self.get_np_img(),(self.w, self.h), interpolation = cv2.INTER_CUBIC)
-            self.set_pil_img(aux)
-            
-            cv2.imshow('Erf', aux)
-            cv2.waitKey()
+            self.np_img = cv2.resize(self.np_img,(self.w, self.h), interpolation = cv2.INTER_CUBIC)
+            self.pil_img = ImageTk.PhotoImage(Image.fromarray(self.np_img))
+            self.reescaled = True
+            #Redefinimos la miniimagen
+            i = cv2.resize(self.np_img,(self.w/4, self.h/4), interpolation = cv2.INTER_CUBIC)
+            self.min_img = ImageTk.PhotoImage(Image.fromarray(i))
     #Getter de la imagen en np
     def get_np_img(self):
         return self.np_img
@@ -69,6 +70,9 @@ class butterfly:
     
     def get_reescaled(self):
         return self.reescaled
+    
+    def get_size(self):
+        return self.h,self.w
     
     def set_checked(self,c):
         if c == 'True':

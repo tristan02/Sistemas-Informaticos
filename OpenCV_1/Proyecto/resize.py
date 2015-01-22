@@ -45,10 +45,10 @@ def findscale(img):
     return img_v
 
 #Le llega una imagen y busca el 0 y el 3 de la regla que escala las imagenes y devuelve la distancia en pixeles que los separan
-def find_0_3(img):
-    
+def find_0_3(img_o):
+    img = img_o
     h,w = img.shape[:2]
-    bimg = np.zeros((h,w,3), np.uint8)
+    mask = np.zeros((h,w,3), np.uint8)
     v0 = [h,w]
     v3 = [0,0]
     
@@ -61,11 +61,11 @@ def find_0_3(img):
     dst = cv2.dilate(dst,None)   
 
     # Threshold for an optimal value, it may vary depending on the image.
-    img[dst>0.005*dst.max()]=[0,0,255]        
+    mask[dst>0.005*dst.max()]=[0,0,255]        
 
     for x in range(w):
         for y in range(h):
-            px = img[y,x]
+            px = mask[y,x]
             #Si el pixel es rojo mejoramos el valor para seguir bajando                       
             if px[0] == 0 and px[1] == 0 and px[2] == 255:
                 if v3[0] < y or v3[1] < y:                    
@@ -78,6 +78,7 @@ def find_0_3(img):
     #cv2.circle(img,(v0[0],v0[1]), 10, (255,0,0), -1)
     sol = v3[0]-v0[0]
     
+    img = img_o    
     return sol
 
 '''image_name = "img_v.jpg"

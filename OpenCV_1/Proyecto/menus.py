@@ -112,7 +112,7 @@ class menus:
         for i in range(c):
             but = self.db.get_but(i)
             dist = find_0_3(but.get_np_img())
-            but.reescale(dist)         
+            but.reescale(dist)
         self.refresh_grid()
         self.w.mainloop()
         
