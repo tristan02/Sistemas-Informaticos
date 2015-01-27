@@ -17,6 +17,7 @@ class butterfly:
     pil_img = Null
     min_img = Null
     name = ''
+    dist03 = 0
     w = 0
     h = 0
     
@@ -33,7 +34,9 @@ class butterfly:
     #A partir de la medida entre el 0 y el 3 que son "3cmm" reescalamos a escala 2:1
     def reescale(self,d):
         if not(self.reescaled):
-            k = 2*113.3858267717/d
+            k = float(self.dist03/d)
+            print str(k)
+            #me sale = 0 1 !!!!!!!!!!!!!!!! =(
             self.w = int(self.w*k)
             self.h = int(self.h*k)
             self.np_img = cv2.resize(self.np_img,(self.w, self.h), interpolation = cv2.INTER_CUBIC)
@@ -42,6 +45,11 @@ class butterfly:
             #Redefinimos la miniimagen
             i = cv2.resize(self.np_img,(self.w/4, self.h/4), interpolation = cv2.INTER_CUBIC)
             self.min_img = ImageTk.PhotoImage(Image.fromarray(i))
+            
+    #Dist03 sera la distancia en pixeles que hay entre el 0 y el 3 de la regla      
+    def get_dist03(self):
+        return self.dist03
+    
     #Getter de la imagen en np
     def get_np_img(self):
         return self.np_img
@@ -73,6 +81,9 @@ class butterfly:
     
     def get_size(self):
         return self.h,self.w
+    
+    def set_dist03(self,d):
+        self.dist03 = d
     
     def set_checked(self,c):
         if c == 'True':

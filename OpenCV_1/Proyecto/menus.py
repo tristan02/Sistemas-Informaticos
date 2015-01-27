@@ -107,12 +107,20 @@ class menus:
         self.frame.destroy()
         self.db.delete_db()
     
+    #Para intentar perder la menor informacion posible sobre las imagenes,
+    # el nuevo tamanyo sera segun la media de las distancias
     def resize(self):
+        d = 0
         c = self.db.get_count_but()
         for i in range(c):
             but = self.db.get_but(i)
             dist = find_0_3(but.get_np_img())
-            but.reescale(dist)
+            print str(dist)
+            d = d + dist
+            but.set_dist03(dist)
+        d = d/c  
+        print str(d) + 'la media'
+        self.db.reescale_bd(d)
         self.refresh_grid()
         self.w.mainloop()
         
