@@ -111,14 +111,19 @@ class menus:
     # el nuevo tamanyo sera segun la media de las distancias
     def resize(self):
         d = 0
+        error = 0
         c = self.db.get_count_but()
         for i in range(c):
             but = self.db.get_but(i)
             dist = find_0_3(but.get_np_img())
             print str(dist)
-            d = d + dist
-            but.set_dist03(dist)
-        d = d/c  
+            #Si la medida sale mal la sacamos de la media
+            if dist > 10:
+                d = d + dist
+                but.set_dist03(dist)
+            else:
+                error = error + 1
+        d = d/(c-error)  
         print str(d) + 'la media'
         self.db.reescale_bd(d)
         self.refresh_grid()

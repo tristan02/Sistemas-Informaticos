@@ -34,9 +34,8 @@ class butterfly:
     #A partir de la medida entre el 0 y el 3 que son "3cmm" reescalamos a escala 2:1
     def reescale(self,d):
         if not(self.reescaled):
-            k = float(self.dist03/d)
+            k = float(d)/float(self.dist03)
             print str(k)
-            #me sale = 0 1 !!!!!!!!!!!!!!!! =(
             self.w = int(self.w*k)
             self.h = int(self.h*k)
             self.np_img = cv2.resize(self.np_img,(self.w, self.h), interpolation = cv2.INTER_CUBIC)
