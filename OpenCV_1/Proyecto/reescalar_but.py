@@ -87,13 +87,9 @@ def cero_tres(img):
                 if v0[0] > x or v0[1] < y:
                     v0 = [x,y]
     #print str(v0[0]) + '---->' + str(v0[1])
-    #cv2.circle(img,(v3[0],v3[1]), 10, (0,255,0), -1)
-    #cv2.circle(img,(v0[0],v0[1]), 10, (255,0,0), -1)
+    cv2.circle(img,(v3[0],v3[1]), 10, (0,255,0), -1)
+    cv2.circle(img,(v0[0],v0[1]), 10, (255,0,0), -1)
     sol = v3[0]-v0[0]
-    
-    cv2.imshow('img', img)
-    cv2.waitKey()
-    
     return img,sol
 
 
@@ -111,11 +107,8 @@ for i in range(100):
     
     img_z,sol = cero_tres(img)
     print sol
-    x = sol/113.3858267717 
-    print x
-    cv2.imshow('output',img_z)
+    cv2.imshow('output',img_z)   
     cv2.waitKey()
-    
     
 
 cv2.destroyAllWindows()

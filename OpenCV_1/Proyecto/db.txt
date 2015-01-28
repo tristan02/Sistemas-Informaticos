@@ -1,9 +1,25 @@
-2
+6
+C:/Users/Psilocibino/Documents/GitHub/Sistemas-Informaticos/OpenCV_1/Proyecto/ima/img (1).jpg
+True
+False
+False
+C:/Users/Psilocibino/Documents/GitHub/Sistemas-Informaticos/OpenCV_1/Proyecto/ima/img (2).jpg
+True
+False
+False
+C:/Users/Psilocibino/Documents/GitHub/Sistemas-Informaticos/OpenCV_1/Proyecto/ima/img (4).jpg
+True
+False
+False
 C:/Users/Psilocibino/Documents/GitHub/Sistemas-Informaticos/OpenCV_1/Proyecto/ima/img (6).jpg
+True
 False
 False
+C:/Users/Psilocibino/Documents/GitHub/Sistemas-Informaticos/OpenCV_1/Proyecto/ima/img (7).jpg
+True
 False
-C:/Users/Psilocibino/Documents/GitHub/Sistemas-Informaticos/OpenCV_1/Proyecto/ima/img (24).jpg
+False
+C:/Users/Psilocibino/Documents/GitHub/Sistemas-Informaticos/OpenCV_1/Proyecto/ima/img (5).jpg
 False
 False
 False

@@ -57,6 +57,8 @@ class menus:
         menubar.add_cascade(label="Help", menu=helpmenu)
         
         w.config(menu=menubar)
+        #Para no tener que cargar cada vez la base de datos
+        self.db.load_db('db.txt')
         self.refresh_grid()
         
     def callback(self,event):
@@ -115,13 +117,18 @@ class menus:
         c = self.db.get_count_but()
         for i in range(c):
             but = self.db.get_but(i)
-            dist = find_0_3(but.get_np_img())
-            print str(dist)
+            #Si la imagen ya ha sido reescalada no buscamos su distancia pues ya la sabemos but.dist03
+            if not(but.get_reescaled()):
+                dist = find_0_3(but.get_np_img())
+            else:
+                dist = but.get_dist03()
             #Si la medida sale mal la sacamos de la media
             if dist > 10:
                 d = d + dist
                 but.set_dist03(dist)
             else:
+                #TODO Si no se ha detectado bien el 03 hay que hacer algo!
+                #self.db.delete_but(but)
                 error = error + 1
         d = d/(c-error)  
         print str(d) + 'la media'

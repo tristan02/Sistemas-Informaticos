@@ -34,7 +34,8 @@ class database:
         
     def reescale_bd(self,d):
         for elem in self.data_unchecked:
-            elem.reescale(d)
+            if not((elem.get_dist03() + 3) > d and (elem.get_dist03() - 3) < d):
+                elem.reescale(d)
             
     #Sacamos
     def get_last_but_uncp(self):
