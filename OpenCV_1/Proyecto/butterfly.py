@@ -12,10 +12,12 @@ from matplotlib.cbook import Null
 class butterfly:
     broken = False
     checked = False
+    #TODO quitar reescaled. no sirve de mucho. mejor basarse en si tenemos o no la distancia 03 real y ya esta.
     reescaled = False
     np_img = Null
     pil_img = Null
     min_img = Null
+    mask_img = Null
     name = ''
     dist03 = 0
     w = 0

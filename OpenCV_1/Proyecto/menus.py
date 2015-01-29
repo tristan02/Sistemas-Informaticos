@@ -36,6 +36,7 @@ class menus:
         filemenu.add_command(label="Load new item...", command=self.load_but)
         filemenu.add_command(label="Load Database", command=self.load_db)
         filemenu.add_command(label="Save Database", command=self.db.save_db)
+        #TODO safe database as...
         filemenu.add_command(label="Close", command=self.close_but)        
         filemenu.add_separator()        
         filemenu.add_command(label="Exit", command=w.quit)
@@ -44,7 +45,8 @@ class menus:
         editmenu = Menu(menubar, tearoff=0)
         editmenu.add_command(label="Rescale", command=self.resize)
         editmenu.add_command(label="Isolate item", command=self.donothing)
-        editmenu.add_command(label="Compare by Color", command=self.donothing)  
+        editmenu.add_command(label="Show masks", command=self.show_masks)
+        editmenu.add_command(label="Compare by Color", command=self.donothing )  
         editmenu.add_command(label="Show butterflies", command=self.refresh_grid)       
         editmenu.add_separator()        
         editmenu.add_command(label="Delete", command=self.donothing)
@@ -108,6 +110,10 @@ class menus:
             self.panel.destroy()
         self.frame.destroy()
         self.db.delete_db()
+        
+    def show_masks(self):
+        #TODO
+        self.donothing()
     
     #Para intentar perder la menor informacion posible sobre las imagenes,
     # el nuevo tamanyo sera segun la media de las distancias
@@ -130,8 +136,7 @@ class menus:
                 #TODO Si no se ha detectado bien el 03 hay que hacer algo!
                 #self.db.delete_but(but)
                 error = error + 1
-        d = d/(c-error)  
-        print str(d) + 'la media'
+        d = d/(c-error)
         self.db.reescale_bd(d)
         self.refresh_grid()
         self.w.mainloop()
@@ -165,6 +170,7 @@ class menus:
         path = self.get_path(b)
         self.db.load_db(path)
         self.refresh_grid()     
+        
     
     
     

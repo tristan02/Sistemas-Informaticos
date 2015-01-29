@@ -2,8 +2,8 @@ import cv2
 import numpy as np
 
 #Carga de imagenes
-img1 = cv2.imread('rgb.jpg')
-img2 = cv2.imread('erode.jpg')
+img1 = cv2.imread('asdf.jpg')
+img2 = cv2.imread('img.jpg')
 img2 = cv2.bitwise_not(img2)
 
 #creamos un roi (region de interes) de la img1 con la forma de la segunda que es mas pequenya
