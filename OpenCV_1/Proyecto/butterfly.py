@@ -20,6 +20,7 @@ class butterfly:
     mask_img = Null
     name = ''
     dist03 = 0
+    centroide = (0,0)
     w = 0
     h = 0
     
@@ -81,8 +82,14 @@ class butterfly:
     def get_size(self):
         return self.h,self.w
     
+    def get_centroide(self):
+        return self.centroide
+    
     def set_dist03(self,d):
         self.dist03 = d
+        
+    def set_centroide(self,x,y):
+        self.centroide = (x,y)
     
     def set_checked(self,c):
         if c == 'True':

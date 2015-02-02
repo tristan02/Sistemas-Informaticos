@@ -6,6 +6,46 @@ Created on 29/1/2015
 import cv2
 import numpy as np
 
+def get_contour(contours,w,h):
+
+    max1 = 0
+    i = 0
+    centroide = False
+    for c in contours:
+        if cv2.arcLength(c, True) > max1:
+            max1 = cv2.arcLength(c, True)
+            cnt = contours[i]
+        i = i + 1 
+           
+    i = 0
+    max2 = 0
+    for c in contours:
+        #Sacamos el centroide para ver si es contorno de mariposa
+        M = cv2.moments(c) 
+        if M['m00'] != 0:
+            cx = int(M['m10']/M['m00'])
+            cy = int(M['m01']/M['m00'])
+            if cy < 280 and cy > 180 and cx < 400 and cx > 300:
+                centroide = True
+        if cv2.arcLength(c, True) > max2 and cv2.arcLength(c, True) != max1 and centroide:
+            max2 = cv2.arcLength(c, True)
+            cnt = contours[i]
+        i = i + 1
+        centroide = False     
+    #El contorno en las mariposas pequenyas no es el 2 mas grande por lo que tenemos que comprobar tambien la posicion del centroide.   
+    '''for c in contours:   '''      
+    
+    M = cv2.moments(cnt)   
+    cx = int(M['m10']/M['m00'])
+    cy = int(M['m01']/M['m00'])
+    
+    '''cv2.circle(gray,(cx,cy), 10, (0,255,0), -1)
+    
+    txt = str(cx) + ',' + str(cy)
+    cv2.putText(gray, txt , (30,30), cv2.FONT_HERSHEY_PLAIN, 2, (0,255,0))'''
+    
+    return cnt,centroide
+
 def get_mask(img):
     s,b,mx,my,rz,rx,ry = 1,0,0,0,0,200,200
     t1 = 230
@@ -17,44 +57,30 @@ def get_mask(img):
     #Carga de imagenes
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     edges = cv2.Canny(gray,550,300)
-    
+    h,w = img.shape[:2]
     ret,thresh = cv2.threshold(gray,t1,t2,t3)
     '''cv2.imshow("thresh",thresh)
     cv2.waitKey()'''
     
-    #Seleccionamos el contorno que nos interesa
+    #Seleccionamos el contorno que nos interesa El mas grande es el recuadro de la foto. Asi que probablemente el 2 mas
+    #grande sea el de la mariposa.
     contours, hierarchy = cv2.findContours(thresh,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
-    max1 = 0
-    i = 0
-    for c in contours:
-        if cv2.arcLength(c, True) > max1:
-            max1 = cv2.arcLength(c, True)
-            cnt = contours[i]
-        i = i + 1    
-    i = 0
-    max2 = 0
-    for c in contours:
-        if cv2.arcLength(c, True) > max2 and cv2.arcLength(c, True) != max1:
-            max2 = cv2.arcLength(c, True)
-            cnt = contours[i]
-        i = i + 1     
-    archi=open('datos.txt','a')
-    for line in cnt:        
-        archi.write(str(line) + '\n')
-    archi.close()   
-    cv2.drawContours(gray, [cnt], 0, (0,255,0), 3)            
+    cnt,centroide = get_contour(contours,w,h)
+    
+    cv2.drawContours(gray,[cnt], 0, (0,255,0), 3)            
     #cv2.drawContours(gray, contours, i, (0,255,0), 3)    
     '''cv2.imshow('contours', gray)
     cv2.waitKey()'''
     
     ret, mask = cv2.threshold(gray, m1, m2, cv2.THRESH_BINARY)
     mask_inv = cv2.bitwise_not(mask)
-    return mask
+    return mask,centroide
 
 #cv2.imwrite('mezcla.jpg', dst)
 
 for i in range(100):
     path = 'ima/img (' + str(i+1) + ').jpg'
+    #path = 'ima/img (14).jpg'
     img = cv2.imread(path)
     
     #edges = cv2.Canny(img,270,500)    
@@ -65,7 +91,7 @@ for i in range(100):
     
     #x,y,mn = match(img_g)
     
-    img_z = get_mask(img)
+    img_z,centroide = get_mask(img)
     cv2.imshow('output',img_z)   
     cv2.waitKey()
     
