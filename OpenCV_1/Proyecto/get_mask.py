@@ -67,14 +67,12 @@ def get_mask(img):
     contours, hierarchy = cv2.findContours(thresh,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
     cnt,centroide = get_contour(contours,w,h)
     
-    cv2.drawContours(gray,[cnt], 0, (0,255,0), 3)            
-    #cv2.drawContours(gray, contours, i, (0,255,0), 3)    
-    '''cv2.imshow('contours', gray)
-    cv2.waitKey()'''
+    cv2.drawContours(image=gray,contours=[cnt], contourIdx=0, color=(0,255,0),thickness=-1)         
+  
     
     ret, mask = cv2.threshold(gray, m1, m2, cv2.THRESH_BINARY)
     mask_inv = cv2.bitwise_not(mask)
-    return mask,centroide
+    return mask_inv,centroide
 
 #cv2.imwrite('mezcla.jpg', dst)
 
