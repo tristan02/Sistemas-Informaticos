@@ -111,9 +111,11 @@ class menus:
         self.frame.destroy()
         self.db.delete_db()
         
-    def show_masks(self):
-        #TODO
-        self.donothing()
+    def show_masks(self):        
+        c = self.db.get_count_but()
+        for i in range(c):
+            but = self.db.get_but(i)
+            cv2.imshow(but.get_name(), but.get_mask())
     
     #Para intentar perder la menor informacion posible sobre las imagenes,
     # el nuevo tamanyo sera segun la media de las distancias

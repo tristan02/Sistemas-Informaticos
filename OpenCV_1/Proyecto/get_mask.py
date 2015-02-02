@@ -47,7 +47,6 @@ def get_contour(contours,w,h):
     return cnt,centroide
 
 def get_mask(img):
-    s,b,mx,my,rz,rx,ry = 1,0,0,0,0,200,200
     t1 = 230
     t2 = 255
     t3 = 0
@@ -72,10 +71,12 @@ def get_mask(img):
     
     ret, mask = cv2.threshold(gray, m1, m2, cv2.THRESH_BINARY)
     mask_inv = cv2.bitwise_not(mask)
+    #TODO aplicar filtro para quitar ruidos
+    #blur = cv2.bilateralFilter(mask,10,150,150)
     return mask_inv,centroide
 
 #cv2.imwrite('mezcla.jpg', dst)
-
+'''
 for i in range(100):
     path = 'ima/img (' + str(i+1) + ').jpg'
     #path = 'ima/img (14).jpg'
@@ -94,4 +95,4 @@ for i in range(100):
     cv2.waitKey()
     
 
-cv2.destroyAllWindows()
+cv2.destroyAllWindows()'''

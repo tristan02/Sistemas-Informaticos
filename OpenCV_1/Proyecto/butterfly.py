@@ -7,6 +7,7 @@ import cv2
 import numpy as np
 import ImageTk, Image
 from matplotlib.cbook import Null
+from Proyecto.get_mask import get_mask
 
 
 class butterfly:
@@ -50,6 +51,10 @@ class butterfly:
     def get_dist03(self):
         return self.dist03
     
+    def get_mask(self):
+        if self.mask_img == Null:
+            self.mask_img,self.centroide = get_mask(self.np_img)
+        return self.mask_img
     #Getter de la imagen en np
     def get_np_img(self):
         return self.np_img
