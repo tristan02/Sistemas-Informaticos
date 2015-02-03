@@ -26,12 +26,14 @@ def get_contour(contours,w,h):
             cx = int(M['m10']/M['m00'])
             cy = int(M['m01']/M['m00'])
             if cy < 280 and cy > 180 and cx < 400 and cx > 300:
-                centroide = True
-        if cv2.arcLength(c, True) > max2 and cv2.arcLength(c, True) != max1 and centroide:
+                centro = True
+        if cv2.arcLength(c, True) > max2 and cv2.arcLength(c, True) != max1 and centro:
             max2 = cv2.arcLength(c, True)
             cnt = contours[i]
+            centroide = (cx,cy)
+            area = cv2.contourArea(cnt)
         i = i + 1
-        centroide = False     
+        centro = False     
     #El contorno en las mariposas pequenyas no es el 2 mas grande por lo que tenemos que comprobar tambien la posicion del centroide.   
     '''for c in contours:   '''      
     
@@ -44,7 +46,7 @@ def get_contour(contours,w,h):
     txt = str(cx) + ',' + str(cy)
     cv2.putText(gray, txt , (30,30), cv2.FONT_HERSHEY_PLAIN, 2, (0,255,0))'''
     
-    return cnt,centroide
+    return cnt,centroide,area
 
 def get_mask(img):
     t1 = 230
@@ -64,7 +66,7 @@ def get_mask(img):
     #Seleccionamos el contorno que nos interesa El mas grande es el recuadro de la foto. Asi que probablemente el 2 mas
     #grande sea el de la mariposa.
     contours, hierarchy = cv2.findContours(thresh,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
-    cnt,centroide = get_contour(contours,w,h)
+    cnt,centroide,area = get_contour(contours,w,h)
     
     cv2.drawContours(image=gray,contours=[cnt], contourIdx=0, color=(0,255,0),thickness=-1)         
   
@@ -73,7 +75,7 @@ def get_mask(img):
     mask_inv = cv2.bitwise_not(mask)
     #TODO aplicar filtro para quitar ruidos
     #blur = cv2.bilateralFilter(mask,10,150,150)
-    return mask_inv,centroide
+    return mask_inv,centroide,area
 
 #cv2.imwrite('mezcla.jpg', dst)
 '''

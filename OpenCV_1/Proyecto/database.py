@@ -8,6 +8,7 @@ import numpy as np
 from Proyecto.butterfly import butterfly
 import tkMessageBox
 import ImageTk, Image
+from matplotlib.cbook import Null
 
 
 class database:
@@ -36,6 +37,8 @@ class database:
         for elem in self.data_unchecked:
             if not((elem.get_dist03() + 3) > d and (elem.get_dist03() - 3) < d):
                 elem.reescale(d)
+            if elem.get_centroide() != 0:
+                elem.reescale_mask()
             
     #Sacamos
     def get_last_but_uncp(self):

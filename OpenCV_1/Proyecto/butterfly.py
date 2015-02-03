@@ -15,18 +15,21 @@ class butterfly:
     checked = False
     #TODO quitar reescaled. no sirve de mucho. mejor basarse en si tenemos o no la distancia 03 real y ya esta.
     reescaled = False
+    orig_img = Null
     np_img = Null
     pil_img = Null
     min_img = Null
     mask_img = Null
     name = ''
     dist03 = 0
+    area = 0
     centroide = (0,0)
     w = 0
     h = 0
     
     def __init__(self,img,name):
         self.np_img = img
+        self.orig_img = img
         self.pil_img = ImageTk.PhotoImage(Image.fromarray(img))
         self.name = name
         self.w = self.pil_img.width()
@@ -46,14 +49,24 @@ class butterfly:
         #Redefinimos la miniimagen
         i = cv2.resize(self.np_img,(self.w/4, self.h/4), interpolation = cv2.INTER_CUBIC)
         self.min_img = ImageTk.PhotoImage(Image.fromarray(i))
+        #Reescalamos la maskara
+        self.reescale_mask()
+    
+    #Basandonos en dist03 reescalamos las maskara  
+    def reescale_mask(self):
+        if self.area != 0:
+            self.mask_img = cv2.resize(self.mask_img,(self.w, self.h), interpolation = cv2.INTER_CUBIC)
             
     #Dist03 sera la distancia en pixeles que hay entre el 0 y el 3 de la regla      
     def get_dist03(self):
         return self.dist03
     
     def get_mask(self):
-        if self.mask_img == Null:
-            self.mask_img,self.centroide = get_mask(self.np_img)
+        if self.area == 0 and not(self.reescaled):
+            self.mask_img,self.centroide,self.area = get_mask(self.np_img)
+        elif self.area == 0 and self.reescaled:
+            self.mask_img,self.centroide,self.area = get_mask(self.orig_img)
+            self.reescale_mask()
         return self.mask_img
     #Getter de la imagen en np
     def get_np_img(self):
@@ -89,7 +102,7 @@ class butterfly:
     
     def get_centroide(self):
         return self.centroide
-    
+       
     def set_dist03(self,d):
         self.dist03 = d
         
