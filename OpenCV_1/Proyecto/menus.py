@@ -44,9 +44,8 @@ class menus:
         
         editmenu = Menu(menubar, tearoff=0)
         editmenu.add_command(label="Rescale", command=self.resize)
-        editmenu.add_command(label="Isolate item", command=self.donothing)
         editmenu.add_command(label="Show masks", command=self.show_masks)
-        editmenu.add_command(label="Compare by Color", command=self.donothing )  
+        editmenu.add_command(label="Show histograms", command=self.show_hist)  
         editmenu.add_command(label="Show butterflies", command=self.refresh_grid)       
         editmenu.add_separator()        
         editmenu.add_command(label="Delete", command=self.donothing)
@@ -116,6 +115,10 @@ class menus:
         for i in range(c):
             but = self.db.get_but(i)
             cv2.imshow(but.get_name(), but.get_mask())
+     
+     #De momento abrimos una ventana con el histograma de cada mariposa       
+    def show_hist(self):
+        self.donothing()
     
     #Para intentar perder la menor informacion posible sobre las imagenes,
     # el nuevo tamanyo sera segun la media de las distancias
