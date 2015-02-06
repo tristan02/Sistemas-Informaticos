@@ -67,7 +67,10 @@ class butterfly:
         elif self.area == 0 and self.reescaled:
             self.mask_img,self.centroide,self.area = get_mask(self.orig_img)
             self.reescale_mask()
+        
+        cv2.imwrite(self.name + '_mask.jpg', self.mask_img)
         return self.mask_img
+    
     #Getter de la imagen en np
     def get_np_img(self):
         return self.np_img
