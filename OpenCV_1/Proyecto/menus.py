@@ -118,7 +118,10 @@ class menus:
      
      #De momento abrimos una ventana con el histograma de cada mariposa       
     def show_hist(self):
-        self.donothing()
+        c = self.db.get_count_but()
+        for i in range(c):
+            but = self.db.get_but(i)
+            cv2.imshow(but.get_name(), but.get_hist())
     
     #Para intentar perder la menor informacion posible sobre las imagenes,
     # el nuevo tamanyo sera segun la media de las distancias

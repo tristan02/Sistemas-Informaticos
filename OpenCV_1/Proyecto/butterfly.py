@@ -8,6 +8,7 @@ import numpy as np
 import ImageTk, Image
 from matplotlib.cbook import Null
 from Proyecto.get_mask import get_mask
+from Proyecto.get_histogram import get_hist
 
 
 class butterfly:
@@ -20,6 +21,7 @@ class butterfly:
     pil_img = Null
     min_img = Null
     mask_img = Null
+    hist_img = Null
     name = ''
     dist03 = 0
     area = 0
@@ -68,8 +70,16 @@ class butterfly:
             self.mask_img,self.centroide,self.area = get_mask(self.orig_img)
             self.reescale_mask()
         
-        cv2.imwrite(self.name + '_mask.jpg', self.mask_img)
+        #cv2.imwrite(self.name + '_mask.jpg', self.mask_img)
         return self.mask_img
+    
+    def get_hist(self):
+        if self.area == 0 and not(self.reescaled):
+            self.get_mask()
+            self.hist_img = get_hist(self.np_img,self.mask_img)
+        else:
+            self.hist_img = get_hist(self.np_img,self.mask_img)
+        return self.hist_img
     
     #Getter de la imagen en np
     def get_np_img(self):
