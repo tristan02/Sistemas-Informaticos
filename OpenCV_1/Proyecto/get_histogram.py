@@ -23,6 +23,7 @@ def get_hist(img,msk):
     h=np.flipud(h)
     return h
 
+#Cuanto mas cercano a 0 mas parecido tendran
 def compare_hist(h1,h2):
     r = cv2.compareHist(h1, h2, cv2.cv.CV_COMP_CHISQR)    
     #TODO    

@@ -9,10 +9,13 @@ from Tkinter import *
 from Proyecto.butterfly import butterfly
 import ImageTk, Image
 from tkFileDialog import *
+from Proyecto.menus import *
 import tkMessageBox
 from Proyecto.resize import find_0_3
 from matplotlib.cbook import Null
 from matplotlib.mlab import donothing_callback
+import ttk
+from Proyecto.database import database
 
 #Construccion del menus y submenus
 class menus:
@@ -36,7 +39,6 @@ class menus:
         filemenu.add_command(label="Load new item...", command=self.load_but)
         filemenu.add_command(label="Load Database", command=self.load_db)
         filemenu.add_command(label="Save Database", command=self.db.save_db)
-        #TODO safe database as...
         filemenu.add_command(label="Close", command=self.close_but)        
         filemenu.add_separator()        
         filemenu.add_command(label="Exit", command=w.quit)
@@ -58,14 +60,14 @@ class menus:
         menubar.add_cascade(label="Help", menu=helpmenu)
         
         w.config(menu=menubar)
+        
         #Para no tener que cargar cada vez la base de datos
         self.db.load_db('db.txt')
         self.refresh_grid()
         
     def callback(self,event):
         print "clicked at", event.x, event.y
-        
-        
+               
     def donothing(self):
         pass
     
@@ -116,7 +118,7 @@ class menus:
             but = self.db.get_but(i)
             cv2.imshow(but.get_name(), but.get_mask())
      
-     #De momento abrimos una ventana con el histograma de cada mariposa       
+    #De momento abrimos una ventana con el histograma de cada mariposa       
     def show_hist(self):
         c = self.db.get_count_but()
         for i in range(c):
@@ -180,6 +182,15 @@ class menus:
         self.refresh_grid()     
         
     
+if __name__ == '__main__':
     
+    db = database()
+    
+    root = Tk()
+    root.geometry("750x500") 
+
+    menu = menus(root,db)
+    #box = Combobox(root)
+    root.mainloop()
     
     

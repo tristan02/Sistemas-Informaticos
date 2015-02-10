@@ -5,15 +5,32 @@ Created on 2/12/2014
 '''
 import cv2
 import numpy as np
-from Tkinter import *
 from Proyecto.butterfly import butterfly
 from Proyecto.database import database
 from Proyecto.menus import menus
 from matplotlib.cbook import Null
+import Tkinter as tk
+import Combobox
 
-db = database()
 
-w = Tk()
-w.geometry("750x500") 
-menu = menus(w,db)
-w.mainloop()
+
+if __name__ == '__main__':
+    
+    db = database()
+    
+    root = tk.Tk()
+    root.geometry("750x500") 
+
+    menu = menus(root,db)
+    box = Combobox(root)
+    root.mainloop()
+    
+    
+      
+
+
+
+
+
+
+
