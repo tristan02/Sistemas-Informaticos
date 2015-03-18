@@ -22,7 +22,7 @@ if __name__ == '__main__':
     root.geometry("750x500") 
 
     menu = menus(root,db)
-    box = Combobox(root)
+    #box = Combobox(root)
     root.mainloop()
     
     

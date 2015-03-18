@@ -16,6 +16,7 @@ from matplotlib.cbook import Null
 from matplotlib.mlab import donothing_callback
 import ttk
 from Proyecto.database import database
+import os
 
 #Construccion del menus y submenus
 class menus:
@@ -94,7 +95,8 @@ class menus:
         path = self.get_path(b)
         i = np.array(Image.open(path))
         #Creamos la mariposa
-        self.but_act = butterfly(i,path)
+        name = 'ima/' + os.path.basename(path)
+        self.but_act = butterfly(i,name)
         self.refresh_panel(self.but_act.get_pil_img())
         
         s = tkMessageBox.askquestion("Integridad", "Le falta algun trozo al ejemplar?")        
